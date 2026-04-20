@@ -1,0 +1,19 @@
+%% PARTE 3: Erro percentual encoder ponto a ponto
+figure(3);
+erro_pct = zeros(size(rpm_real));
+idx = rpm_real ~= 0;
+erro_pct(idx) = ((rpm_lido(idx) - rpm_real(idx)) ./ rpm_real(idx)) * 100;
+
+% Usar índice posicional no eixo X em vez do valor serial
+bar(erro_pct, 'FaceColor', [0.9 0.4 0.2]);
+set(gca, 'XTickLabel', arrayfun(@num2str, valor_serial, 'UniformOutput', false));
+set(gca, 'XTick', 1:length(valor_serial));
+
+xlabel('Valor Serial'); ylabel('Erro (%)');
+title('Motor Esquerda — Erro percentual do Encoder em relação ao RPM Real');
+grid on;
+yline(0, 'k--', 'LineWidth', 1.5);
+
+fprintf('\n=== PARTE 3: Erro do Encoder ===\n');
+fprintf('Erro médio absoluto: %.4f%%\n', mean(abs(erro_pct(idx))));
+fprintf('Erro máximo: %.4f%%\n', max(abs(erro_pct(idx))));
